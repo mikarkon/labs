@@ -1,25 +1,35 @@
 #include <iostream>
-#include "dialog.h"
-#include "LemBer.h"
+#include "funcs.h"
+#include "forRes.h"
 
-int main()
-{
-    LemBer f(0, -1);
-    int rc = 1;
-    while(rc)
+int main() {
+
+    matrix mx;
+    mx.value = nullptr;
+    mx.rowIndex = nullptr;
+    mx.columnIndex = nullptr;
+    matrix res;
+    try
     {
-        try
-        {
-            dialog::dialog(msgs, msgsAmount, rc);
-            if(!rc)
-                break;
-            dialog::funcArr[rc](f);
-        }
-        catch (const std::runtime_error &ex)
-        {
-            std::cout << ex.what() << std::endl;
-            break;
-        }
+        input(mx, std::cin);
+        output(mx);
+        std::cout << std::endl;
+        std::cout << "\nrow index array" << std::endl;
+        printArray(mx.rowIndex, mx.aRows + 1);
+        std::cout << "column index array" << std::endl;
+        printArray(mx.columnIndex, mx.rowIndex[mx.aRows]);
+        std::cout << "values" << std::endl;
+        printArray(mx.value, mx.rowIndex[mx.aRows]);
+        std::cout << std::endl;
+        formRes(res, mx);
+        output(res);
+        clearMx(mx);
+        clearMx(res);
+    }
+    catch (const std::exception &msg)
+    {
+        clearMx(mx);
+        std::cout << msg.what() << std::endl;
     }
     return 0;
 }
